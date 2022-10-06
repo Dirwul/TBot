@@ -7,110 +7,77 @@ import static main.App.bot;
 
 public class Snippet {
 
-    public static class Error {
+    private static SendMessage defaultMessage(Long chatId, String txt) {
+        return new SendMessage(chatId, txt)
+                .parseMode(ParseMode.HTML)
+                .disableWebPagePreview(true)
+                .disableNotification(true);
+    }
 
-        public static void chooseSettings(Long chatId) {
-            var msgToSend =
-                    new SendMessage(chatId, Text.chooseSettings)
-                            .parseMode(ParseMode.HTML)
-                            .disableWebPagePreview(true)
-                            .disableNotification(true);
-            bot.execute(msgToSend);
-        }
-
-        public static void undefinedCommand(Long chatId) {
-            var msgToSend =
-                    new SendMessage(chatId, Text.undefinedCommand)
-                            .parseMode(ParseMode.HTML)
-                            .disableWebPagePreview(true)
-                            .disableNotification(true);
-            bot.execute(msgToSend);
-        }
-
-        public static void incorrectCalcType(Long chatId) {
-            var msgToSend =
-                    new SendMessage(chatId, Text.incorrectCalcType)
-                            .parseMode(ParseMode.HTML)
-                            .disableWebPagePreview(true)
-                            .disableNotification(true);
-            bot.execute(msgToSend);
-        }
-
-        public static void incorrectSectionType(Long chatId) {
-            var msgToSend =
-                    new SendMessage(chatId, Text.incorrectSectionType)
-                            .parseMode(ParseMode.HTML)
-                            .disableWebPagePreview(true)
-                            .disableNotification(true);
-            bot.execute(msgToSend);
-        }
-
-        public static void incorrectStepValue(Long chatId) {
-            var msgToSend =
-                    new SendMessage(chatId, Text.incorrectStepValue)
-                            .parseMode(ParseMode.HTML)
-                            .disableWebPagePreview(true)
-                            .disableNotification(true);
-            bot.execute(msgToSend);
-        }
-
-        public static void incorrectStepQuantity(Long chatId) {
-            var msgToSend =
-                    new SendMessage(chatId, Text.incorrectStepQuantity)
-                            .parseMode(ParseMode.HTML)
-                            .disableWebPagePreview(true)
-                            .disableNotification(true);
-            bot.execute(msgToSend);
-        }
-
-        public static void incorrectExpression(Long chatId) {
-            var msgToSend =
-                    new SendMessage(chatId, Text.incorrectExpression)
-                            .parseMode(ParseMode.HTML)
-                            .disableWebPagePreview(true)
-                            .disableNotification(true);
-            bot.execute(msgToSend);
-        }
+    public static void inputData(Long chatId) {
+        bot.execute(defaultMessage(chatId, Text.inputData));
     }
 
     public static void help(Long chatId) {
-        var msgToSend =
-                new SendMessage(chatId, Text.help)
-                .parseMode(ParseMode.HTML)
-                .disableWebPagePreview(true)
-                .disableNotification(true);
-                //.replyMarkup(new ForceReply());
-        // синхронно
-        bot.execute(msgToSend);
+        bot.execute(defaultMessage(chatId, Text.help)
+                .replyMarkup(Keyboards.help())
+        );
+    }
+
+    public static void back(Long chatId) {
+        bot.execute(defaultMessage(chatId, Text.back));
+    }
+
+    public static void correctRead(Long chatId) {
+        bot.execute(defaultMessage(chatId, Text.correctRead)
+                .replyMarkup(Keyboards.help())
+        );
     }
 
     public static void calcType(Long chatId) {
-        var msgToSend =
-                new SendMessage(chatId, Text.calcType)
-                .parseMode(ParseMode.HTML)
-                .disableWebPagePreview(true)
-                .disableNotification(true);
-                //.replyMarkup(Keyboards.calcType());
-        bot.execute(msgToSend);
+        bot.execute(defaultMessage(chatId, Text.calcType)
+                .replyMarkup(Keyboards.calcType())
+        );
     }
 
     public static void sectionType(Long chatId) {
-        var msgToSend =
-                new SendMessage(chatId, Text.sectionType)
-                        .parseMode(ParseMode.HTML)
-                        .disableWebPagePreview(true)
-                        .disableNotification(true);
-                        //.replyMarkup(Keyboards.sectionType());
-        bot.execute(msgToSend);
+        bot.execute(defaultMessage(chatId, Text.sectionType)
+                .replyMarkup(Keyboards.sectionType())
+        );
     }
 
     public static void solve(Long chatId) {
-        var msgToSend =
-                new SendMessage(chatId, Text.solve)
-                        .parseMode(ParseMode.HTML)
-                        .disableWebPagePreview(true)
-                        .disableNotification(true);
-                        //.replyMarkup(Keyboards.solve());
-        bot.execute(msgToSend);
+        bot.execute(defaultMessage(chatId, Text.solve));
+    }
+
+    public static class Error {
+
+        public static void chooseSettings(Long chatId) {
+            bot.execute(defaultMessage(chatId, Text.chooseSettings));
+        }
+
+        public static void undefinedCommand(Long chatId) {
+            bot.execute(defaultMessage(chatId, Text.undefinedCommand));
+        }
+
+        public static void incorrectCalcType(Long chatId) {
+            bot.execute(defaultMessage(chatId, Text.incorrectCalcType));
+        }
+
+        public static void incorrectSectionType(Long chatId) {
+            bot.execute(defaultMessage(chatId, Text.incorrectSectionType));
+        }
+
+        public static void incorrectStepValue(Long chatId) {
+            bot.execute(defaultMessage(chatId, Text.incorrectStepValue));
+        }
+
+        public static void incorrectStepQuantity(Long chatId) {
+            bot.execute(defaultMessage(chatId, Text.incorrectStepQuantity));
+        }
+
+        public static void incorrectExpression(Long chatId) {
+            bot.execute(defaultMessage(chatId, Text.incorrectExpression));
+        }
     }
 }

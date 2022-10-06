@@ -3,21 +3,21 @@ package response;
 public class Text {
     public static String help =
         """
-            It's help.
-            1) /help or /start
-            2) /set_calc
-            3) /set_sec
-            4) /solve smth with command "solve [a;b]{expression}"
+            Ваш маленький помощник уже тут!
+            1. Метод и отрезок интегрирования выбирайте из предложенных вариантов.
+            2. Функцию и отрезок интегрирования вводите по следующим правилам:
+                а) [a;b]{expression}
+                б) a строго меньше b
+                в) в выражении допустимы только операторы { +, -, *, /, ^ }
+            3. Если есть баги, то я не виноват)0
         """;
     public static String calcType =
             """
-            Choose calculation type:
-            /rectangles | /trapezoid | /parabolic
+            Выберите метод численного интегрирования:
             """;
     public static String sectionType =
             """
-            Choose how to split [a;b]
-            /by_value | /by_quantity
+            Выберите как разбить отрезок интегрирования [a;b]:
             """;
     public static String solve =
             """
@@ -25,30 +25,36 @@ public class Text {
             """;
     public static String chooseSettings =
             """
+            !!!Этот раздел пока закрыт!!! todo
             Choose calculation type or section type before solving
             """;
     public static String undefinedCommand =
             """
-            Undefined command!!! Use /help
+            Такой команды не существует.
             """;
     public static String incorrectCalcType =
             """
-            IncorrectCalcType
+            Вы ввели неизвестный метод численного интегрирования.
             """;
     public static String incorrectSectionType =
             """
-            IncorrectSectionType
+            Вы выбрали неизвестный тип разбиения.
             """;
     public static String incorrectStepValue =
             """
-            IncorrectStepValue
+            Некорректное значение шага. Воспользуйтесь командой /help для дополнительной информации.
             """;
     public static String incorrectStepQuantity =
             """
-            IncorrectStepQuantity
+            Некорректное количество шагов. Воспользуйтесь командой /help для дополнительной информации.
             """;
     public static String incorrectExpression =
             """
-            Incorrect Expression
+            Некорректное значение выражения. Воспользуйтесь командой /help для дополнительной информации.
             """;
+    public static String back = "";
+
+    public static String correctRead = "Значение корректно";
+
+    public static String inputData = "Введите значение:";
 }
