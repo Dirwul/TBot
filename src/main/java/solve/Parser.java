@@ -16,6 +16,14 @@ public class Parser {
         return c == '.';
     }
 
+    private static boolean isVariable(char c) {
+        return c == 'x';
+    }
+
+    private static boolean isBraces(char c) {
+        return c == '(' || c == ')';
+    }
+
     private static boolean isControlOperator(char c) {
         return c == '[' || c == ']' || c == ';' || c == '{' || c == '}';
     }
@@ -30,14 +38,38 @@ public class Parser {
 
     private static final char[] sampleControlOperatorsArray = new char[]{ '[', ';', ']', '{', '}' };
 
-    /*public static List<String> getAdornedLimits(String expression) {
-
+    public static double[] getAdornedLimits(String expression) {
+        int rightBracketId = expression.indexOf("]");
+        return Arrays.stream(expression
+                .substring(1, rightBracketId - 1)
+                .split(";"))
+                .mapToDouble(Double::parseDouble)
+                .toArray();
     }
 
     public static List<String> getAdornedExpression(String expression) {
+        int start = expression.indexOf("{") + 1;
+        List<String> tokens = new ArrayList<>();
+        int valueCounter = 0;
+        // todo not choose '}'
+        for (int i = start; i < expression.length(); i++) {
+            char c = expression.charAt(i);
+            if (isDigit(c) || isDot(c)) {
+                valueCounter++;
+            } else if (valueCounter > 0) {
+                tokens.add(expression.substring(i - valueCounter, i - 1));
+                valueCounter = 0;
+            }
+            if (isControlOperator(c) || isMathOperator(c) || isBraces(c) || isVariable(c)) {
+                tokens.add(String.valueOf(c));
+            }
+        }
+        return tokens;
+    }
 
-    }*/
-
+    // complexity O(n)
+    // todo parse x correctly
+    // todo parse logarithms and trigonometry correct
     public static boolean isExpressionCorrect(String expression) {
         final int SIZE = 5;
         // check same count and type operators
@@ -57,6 +89,11 @@ public class Parser {
 
         for (int i = 0; i < len; i++) {
             char cur = expression.charAt(i);
+
+            // correct symbol
+            if (!(isOperator(cur) || isDigit(cur) || isBraces(cur) || isVariable(cur))) {
+                return false;
+            }
             // check same count and type operators
             if (isControlOperator(cur) && operatorId < SIZE) {
                 controlOperators[operatorId] = cur;
@@ -78,8 +115,13 @@ public class Parser {
             } else {
                 return false;
             }
-            // no 2 operators together
-            if (isOperator(cur) && isOperator(prev) || prev == '(' && cur == ')') { // no 2 operators together
+            // no 2 operators or variables together
+            if (isOperator(cur) && isOperator(prev) ||
+                    prev == '(' && cur == ')' ||
+                    isVariable(prev) && isVariable(cur) ||
+                    isVariable(prev) && isDigit(cur) ||
+                    isDigit(prev) && isVariable(cur)
+            ) {
                 return false;
             }
 
