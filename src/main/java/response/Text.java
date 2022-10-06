@@ -21,7 +21,8 @@ public class Text {
             """;
     public static String solve =
             """
-            TODO (solve)
+            Введите выражение в формате [a;b]{expr}
+            Доступные символы: +, -, *, /, ^, (, )
             """;
     public static String chooseSettings =
             """

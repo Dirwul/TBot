@@ -3,6 +3,9 @@ package response;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 
+import solve.Solver;
+import structures.Info;
+
 import static main.App.bot;
 
 public class Snippet {
@@ -48,6 +51,10 @@ public class Snippet {
 
     public static void solve(Long chatId) {
         bot.execute(defaultMessage(chatId, Text.solve));
+    }
+
+    public static void getSolvingResult(Long chatId, Info userData, String expression) {
+        bot.execute(defaultMessage(chatId, Solver.run(userData, expression)));
     }
 
     public static class Error {

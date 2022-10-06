@@ -78,7 +78,7 @@ public class Parser {
         // correct brackets
 
         List<String> values = new ArrayList<>();
-        int bracketsDiff = 0;
+        int bracesDiff = 0;
         char[] controlOperators = new char[SIZE];
         int[] controlOperatorsId = new int[SIZE];
 
@@ -92,6 +92,7 @@ public class Parser {
 
             // correct symbol
             if (!(isOperator(cur) || isDigit(cur) || isBraces(cur) || isVariable(cur))) {
+                System.out.println("Incorrect Symbol"); // debug
                 return false;
             }
             // check same count and type operators
@@ -104,24 +105,26 @@ public class Parser {
             if (isDigit(cur) || isDot(cur)) {
                 valueLenCounter++;
             } else if (valueLenCounter > 0) {
-                values.add(expression.substring(i - valueLenCounter, i - 1)); // todo maybe wrong
+                values.add(expression.substring(i - valueLenCounter, i)); // todo maybe wrong (note: test and debug say ok)
                 valueLenCounter = 0;
             }
             // correct brackets
             if (cur == '(') {
-                bracketsDiff++;
-            } else if (bracketsDiff > 0 && cur == ')') {
-                bracketsDiff--;
-            } else {
+                bracesDiff++;
+            } else if (bracesDiff > 0 && cur == ')') {
+                bracesDiff--;
+            } else if (bracesDiff == 0 && cur == ')'){
+                System.out.println("Incorrect braces"); // debug
                 return false;
             }
             // no 2 operators or variables together
-            if (isOperator(cur) && isOperator(prev) ||
+            if (isOperator(cur) && isOperator(prev) && !(prev == ']' && cur == '{') ||
                     prev == '(' && cur == ')' ||
                     isVariable(prev) && isVariable(cur) ||
                     isVariable(prev) && isDigit(cur) ||
                     isDigit(prev) && isVariable(cur)
             ) {
+                System.out.println("2 operators together"); // debug
                 return false;
             }
 
@@ -129,22 +132,36 @@ public class Parser {
         }
 
         // check brackets if more than correct
-        if (bracketsDiff > 0) {
+        if (bracesDiff > 0) {
+            System.out.println("Open braces more than close"); // debug
             return false;
         }
         // check operators
         if (!Arrays.equals(controlOperators, sampleControlOperatorsArray)) {
+            System.out.println("Operators aren't equal"); // debug
             return false;
         }
         // control operators place
         if (!(controlOperatorsId[0] == 0 &&
                 controlOperatorsId[4] == len - 1 &&
                 controlOperatorsId[2] + 1 == controlOperatorsId[3])) {
+            System.out.println("Operators aren't in position"); // debug
             return false;
         }
         // check values
+        /* //debug
+        int counter = 0;
         for (var value : values) {
+            counter++;
+            System.out.println(String.valueOf(counter) + " value = " + value);
+        }
+        return false;*/
+        for (var value : values) {
+            if (value.equals("x")) {
+                continue;
+            }
             if (!isDouble(value)) {
+                System.out.println("Incorrect double value: " + value); // debug
                 return false;
             }
         }

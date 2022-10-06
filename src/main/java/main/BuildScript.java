@@ -44,7 +44,7 @@ public class BuildScript {
                 Listener.state = State.SET_SECTION_TYPE;
             }
             case "/solve" -> {
-                if (false /*App.userInfo.isOk()*/) { // todo
+                if (App.userInfo.isOk()) { // todo
                     Snippet.solve(chatId);
                     Listener.state = State.SOLVE;
                 } else {
@@ -145,9 +145,9 @@ public class BuildScript {
     }
 
     public void solve() {
-        if (App.userInfo.isOk() && Parser.isExpressionCorrect(txt)) {
+        if (Parser.isExpressionCorrect(txt)) {
             Listener.state = State.NONE;
-            Snippet.solve(chatId);
+            Snippet.getSolvingResult(chatId, App.userInfo, txt);
             return;
         }
 

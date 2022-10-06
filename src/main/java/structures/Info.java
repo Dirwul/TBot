@@ -34,4 +34,12 @@ public class Info {
     public void setStepQuantity(int stepQuantity) {
         this.stepQuantity = stepQuantity;
     }
+
+    public double getStepValue() {
+        return stepValue;
+    }
+
+    public int getStepQuantity() {
+        return stepQuantity;
+    }
 }
