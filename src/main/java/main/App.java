@@ -2,12 +2,13 @@ package main;
 
 
 import com.pengrad.telegrambot.TelegramBot;
+import structures.Info;
 
 public class App {
 
-    static TelegramBot bot;
+    public static TelegramBot bot;
 
-    static Info userInfo;
+    static Info userInfo = new Info();
 
     private void run() {
         // connect bot

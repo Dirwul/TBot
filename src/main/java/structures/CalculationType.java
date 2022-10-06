@@ -1,4 +1,4 @@
-package main;
+package structures;
 
 public enum CalculationType {
     LEFT_RECTANGLE,

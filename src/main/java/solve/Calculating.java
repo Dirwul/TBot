@@ -1,4 +1,4 @@
-package main;
+package solve;
 
 public class Calculating {
 }

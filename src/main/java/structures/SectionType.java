@@ -1,6 +1,6 @@
-package main;
+package structures;
 
 public enum SectionType {
-    BY_STEPS,
+    BY_STEP_QUANTITY,
     BY_STEP_VALUE
 }
