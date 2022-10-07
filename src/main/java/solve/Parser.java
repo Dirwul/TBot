@@ -41,7 +41,7 @@ public class Parser {
     public static double[] getAdornedLimits(String expression) {
         int rightBracketId = expression.indexOf("]");
         return Arrays.stream(expression
-                .substring(1, rightBracketId - 1)
+                .substring(1, rightBracketId)
                 .split(";"))
                 .mapToDouble(Double::parseDouble)
                 .toArray();
@@ -50,18 +50,29 @@ public class Parser {
     public static List<String> getAdornedExpression(String expression) {
         int start = expression.indexOf("{") + 1;
         List<String> tokens = new ArrayList<>();
+        int curToken = -1;
         int valueCounter = 0;
         // todo not choose '}'
         for (int i = start; i < expression.length(); i++) {
             char c = expression.charAt(i);
-            if (isDigit(c) || isDot(c)) {
-                valueCounter++;
-            } else if (valueCounter > 0) {
-                tokens.add(expression.substring(i - valueCounter, i - 1));
+            char next = (i + 1 < expression.length() ? expression.charAt(i + 1) : '?');
+
+            if (c == '-' && next == '(') {
                 valueCounter = 0;
-            }
-            if (isControlOperator(c) || isMathOperator(c) || isBraces(c) || isVariable(c)) {
+                tokens.add(String.valueOf(c) + String.valueOf(next));
+                curToken++;
+                i++;
+            } else if ((isDigit(c) || isDot(c)) && valueCounter == 0) {
+                curToken++;
+                tokens.add(expression.substring(i, i+1));
+                valueCounter++;
+            } else if ((isDigit(c) || isDot(c)) && valueCounter > 0) {
+                tokens.set(curToken, tokens.get(curToken) + c);
+                valueCounter++;
+            } else {
+                valueCounter = 0;
                 tokens.add(String.valueOf(c));
+                curToken++;
             }
         }
         return tokens;
@@ -118,7 +129,8 @@ public class Parser {
                 return false;
             }
             // no 2 operators or variables together
-            if (isOperator(cur) && isOperator(prev) && !(prev == ']' && cur == '{') ||
+            if (isOperator(cur) && isOperator(prev) && !(prev == ']' && cur == '{') &&
+                    !(isOperator(prev) && cur == '-') && !(prev == '-') && cur == ('(') ||
                     prev == '(' && cur == ')' ||
                     isVariable(prev) && isVariable(cur) ||
                     isVariable(prev) && isDigit(cur) ||

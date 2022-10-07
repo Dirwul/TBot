@@ -6,11 +6,6 @@ import java.util.List;
 
 public class Solver {
 
-    private static double getExpressionResult(double x, List<String> tokens) {
-        // todo solving
-        return 123.456789;
-    }
-
     public static String run(Info userData, String expression) {
         // todo choose solvingType
         double[] limits = Parser.getAdornedLimits(expression);
@@ -27,12 +22,15 @@ public class Solver {
             stepValue = dist / nSteps;
         }
 
+        System.out.println("Limits: " + limits[0] + " ; " + limits[1]);
         double ans = 0;
         for (int i = 0; i < nSteps; i++) {
             double x1 = limits[0] + i * stepValue;
             double x2 = limits[0] + (i + 1) * stepValue;
-            ans += getExpressionResult(x2 - x1, tokens);
+            ans += 0.5 * (x2 - x1) *
+                    (ExpressionIterator.run(x1, tokens) +
+                    ExpressionIterator.run(x2, tokens));
         }
-        return String.valueOf(ans);
+        return String.format("%.3f", ans);
     }
 }

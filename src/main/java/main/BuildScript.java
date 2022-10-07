@@ -145,12 +145,28 @@ public class BuildScript {
     }
 
     public void solve() {
-        if (Parser.isExpressionCorrect(txt)) {
-            Listener.state = State.NONE;
-            Snippet.getSolvingResult(chatId, App.userInfo, txt);
-            return;
+        switch (txt.toLowerCase()) {
+            case "/back" -> {
+                Snippet.back(chatId);
+                Listener.state = State.NONE;
+            }
+            case "/help", "/start" -> Snippet.help(chatId);
+            case "/calculationtype" -> {
+                Snippet.calcType(chatId);
+                Listener.state = State.SET_CALC_TYPE;
+            }
+            case "/sectiontype" -> {
+                Snippet.sectionType(chatId);
+                Listener.state = State.SET_SECTION_TYPE;
+            }
+            case "/solve" -> Snippet.solve(chatId);
+            default -> {
+                if (Parser.isExpressionCorrect(txt)) {
+                    Snippet.getSolvingResult(chatId, App.userInfo, txt);
+                } else {
+                    Snippet.Error.incorrectExpression(chatId); // todo not only expression error
+                }
+            }
         }
-
-        Snippet.Error.incorrectExpression(chatId); // todo not only expression error
     }
 }
