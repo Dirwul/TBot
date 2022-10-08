@@ -9,6 +9,7 @@ public class Text {
                 а) [a;b]{expression}
                 б) a строго меньше b
                 в) в выражении допустимы только операторы { +, -, *, /, ^ }
+                д) Можно использовать sqrt(), ln(), log(base, value), sin(), cos(), tg(), ctg()
             3. Если есть баги, то я не виноват)0
         """;
     public static String calcType =

@@ -1,10 +1,9 @@
 package main;
 
-import solve.Parser;
 import com.pengrad.telegrambot.model.Update;
+import languageRecognition.Validator;
 import response.Snippet;
 import structures.CalculationType;
-import structures.Info;
 import structures.SectionType;
 import structures.State;
 
@@ -120,7 +119,7 @@ public class BuildScript {
         ) {
             Snippet.help(chatId);
             Listener.state = State.NONE;
-        } else if (Parser.isDouble(txt) && Double.parseDouble(txt) > Info.EPS) {
+        } else if (Validator.isCorrectDouble(txt)) {
             App.userInfo.setStepValue(Double.parseDouble(txt));
             Listener.state = State.NONE;
             Snippet.correctRead(chatId);
@@ -135,7 +134,7 @@ public class BuildScript {
         ) {
             Snippet.help(chatId);
             Listener.state = State.NONE;
-        } else if (Parser.isInteger(txt) && Integer.parseInt(txt) > 0) {
+        } else if (Validator.isCorrectInteger(txt)) {
             App.userInfo.setStepQuantity(Integer.parseInt(txt));
             Listener.state = State.NONE;
             Snippet.correctRead(chatId);
@@ -161,7 +160,7 @@ public class BuildScript {
             }
             case "/solve" -> Snippet.solve(chatId);
             default -> {
-                if (Parser.isExpressionCorrect(txt)) {
+                if (Validator.isCorrectExpression(txt)) {
                     Snippet.getSolvingResult(chatId, App.userInfo, txt);
                 } else {
                     Snippet.Error.incorrectExpression(chatId); // todo not only expression error

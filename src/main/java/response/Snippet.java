@@ -3,7 +3,7 @@ package response;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import solve.Solver;
+import languageRecognition.Solver;
 import structures.Info;
 
 import static main.App.bot;
