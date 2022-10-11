@@ -6,12 +6,15 @@ import response.Snippet;
 import structures.CalculationType;
 import structures.SectionType;
 import structures.State;
+import structures.Info;
 
 public class BuildScript {
 
     private final String txt;
 
     private final Long chatId;
+
+    private final Info user;
 
     BuildScript(Update update) {
         final String botName = "@Dirwul_bot";
@@ -25,27 +28,28 @@ public class BuildScript {
 
         this.txt = tmpTxt.replaceAll(" ", "");
         this.chatId = update.message().chat().id();
+        this.user = App.userInfo.get(chatId);
     }
 
     public void none() {
         switch (txt.toLowerCase()) { // maybe snippets need chatId to return
             case "/back" -> {
                 Snippet.back(chatId);
-                Listener.state = State.NONE;
+                user.setState(State.NONE);
             }
             case "/help", "/start" -> Snippet.help(chatId);
             case "/calculationtype" -> {
                 Snippet.calcType(chatId);
-                Listener.state = State.SET_CALC_TYPE;
+                user.setState(State.SET_CALC_TYPE);
             }
             case "/sectiontype" -> {
                 Snippet.sectionType(chatId);
-                Listener.state = State.SET_SECTION_TYPE;
+                user.setState(State.SET_SECTION_TYPE);
             }
             case "/solve" -> {
-                if (App.userInfo.isOk()) { // todo
+                if (App.userInfo.get(chatId).isOk()) { // todo
                     Snippet.solve(chatId);
-                    Listener.state = State.SOLVE;
+                    user.setState(State.SOLVE);
                 } else {
                     Snippet.Error.chooseSettings(chatId);
                 }
@@ -55,33 +59,33 @@ public class BuildScript {
     }
 
     public void settingsCalcType() {
-        Listener.state = State.NONE;
+        user.setState(State.NONE);
 
         boolean isOk = false;
         switch (txt.toLowerCase()) {
             case "/help", "/back" -> {
                 Snippet.help(chatId);
-                Listener.state = State.NONE;
+                user.setState(State.NONE);
             }
             case "/leftrectangle" -> {
-                App.userInfo.setCalcType(CalculationType.LEFT_RECTANGLE);
+                user.setCalcType(CalculationType.LEFT_RECTANGLE);
                 isOk = true;
             }
             case "/rightrectangle" -> {
-                App.userInfo.setCalcType(CalculationType.RIGHT_RECTANGLE);
+                user.setCalcType(CalculationType.RIGHT_RECTANGLE);
                 isOk = true;
             }
             case "/trapezoid" -> {
-                App.userInfo.setCalcType(CalculationType.TRAPEZOID);
+                user.setCalcType(CalculationType.TRAPEZOID);
                 isOk = true;
             }
             case "/parabolic" -> {
-                App.userInfo.setCalcType(CalculationType.PARABOLA);
+                user.setCalcType(CalculationType.PARABOLA);
                 isOk = true;
             }
             default -> {
                 Snippet.Error.incorrectCalcType(chatId);
-                Listener.state = State.SET_CALC_TYPE;
+                user.setState(State.SET_CALC_TYPE);
             }
         }
         if (isOk) {
@@ -94,16 +98,16 @@ public class BuildScript {
         switch (txt.toLowerCase()) {
             case "/help", "/back" -> {
                 Snippet.help(chatId);
-                Listener.state = State.NONE;
+                user.setState(State.NONE);
             }
             case "/stepvalue" -> {
-                App.userInfo.setSectionType(SectionType.BY_STEP_VALUE);
-                Listener.state = State.STEP_VALUE;
+                user.setSectionType(SectionType.BY_STEP_VALUE);
+                user.setState(State.STEP_VALUE);
                 isOk = true;
             }
             case "/stepquantity" -> {
-                App.userInfo.setSectionType(SectionType.BY_STEP_QUANTITY);
-                Listener.state = State.STEP_QUANTITY;
+                user.setSectionType(SectionType.BY_STEP_QUANTITY);
+                user.setState(State.STEP_QUANTITY);
                 isOk = true;
             }
             default -> Snippet.Error.incorrectSectionType(chatId);
@@ -118,10 +122,10 @@ public class BuildScript {
                 txt.equalsIgnoreCase("/back")
         ) {
             Snippet.help(chatId);
-            Listener.state = State.NONE;
+            user.setState(State.NONE);
         } else if (Validator.isCorrectDouble(txt)) {
-            App.userInfo.setStepValue(Double.parseDouble(txt));
-            Listener.state = State.NONE;
+            user.setStepValue(Double.parseDouble(txt));
+            user.setState(State.NONE);
             Snippet.correctRead(chatId);
         } else {
             Snippet.Error.incorrectStepValue(chatId);
@@ -133,10 +137,10 @@ public class BuildScript {
                 txt.equalsIgnoreCase("/back")
         ) {
             Snippet.help(chatId);
-            Listener.state = State.NONE;
+            user.setState(State.NONE);
         } else if (Validator.isCorrectInteger(txt)) {
-            App.userInfo.setStepQuantity(Integer.parseInt(txt));
-            Listener.state = State.NONE;
+            user.setStepQuantity(Integer.parseInt(txt));
+            user.setState(State.NONE);
             Snippet.correctRead(chatId);
         } else {
             Snippet.Error.incorrectStepQuantity(chatId);
@@ -147,21 +151,21 @@ public class BuildScript {
         switch (txt.toLowerCase()) {
             case "/back" -> {
                 Snippet.back(chatId);
-                Listener.state = State.NONE;
+                user.setState(State.NONE);
             }
             case "/help", "/start" -> Snippet.help(chatId);
             case "/calculationtype" -> {
                 Snippet.calcType(chatId);
-                Listener.state = State.SET_CALC_TYPE;
+                user.setState(State.SET_CALC_TYPE);
             }
             case "/sectiontype" -> {
                 Snippet.sectionType(chatId);
-                Listener.state = State.SET_SECTION_TYPE;
+                user.setState(State.SET_SECTION_TYPE);
             }
             case "/solve" -> Snippet.solve(chatId);
             default -> {
                 if (Validator.isCorrectExpression(txt)) {
-                    Snippet.getSolvingResult(chatId, App.userInfo, txt);
+                    Snippet.getSolvingResult(chatId, App.userInfo.get(chatId), txt);
                 } else {
                     Snippet.Error.incorrectExpression(chatId); // todo not only expression error
                 }

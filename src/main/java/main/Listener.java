@@ -5,7 +5,7 @@ import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 
-import structures.State;
+import structures.Info;
 
 import java.util.List;
 
@@ -13,16 +13,21 @@ public class Listener {
 
     TelegramBot bot;
 
-    static State state = State.NONE;
+    //static State state = State.NONE;
 
     Listener(TelegramBot bot) {
         this.bot = bot;
     }
 
     void chooseScript(Update update) {
+        Long chatId = update.message().chat().id();
+        if (!App.userInfo.containsKey(chatId)) {
+            App.userInfo.put(chatId, new Info());
+        }
+
+        //debug
         Message msg = update.message();
         String txt = msg.text();
-        //debug
         System.out.println(msg.chat().id().toString()
                 + "  ||  "
                 + update.updateId().toString()
@@ -30,7 +35,7 @@ public class Listener {
                 + txt
         );
 
-        switch (state) {
+        switch (App.userInfo.get(chatId).getState()) {
             case NONE -> new BuildScript(update).none();
             case SET_CALC_TYPE -> new BuildScript(update).settingsCalcType();
             case SET_SECTION_TYPE -> new BuildScript(update).settingsSectionType();

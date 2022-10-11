@@ -3,11 +3,16 @@ package main;
 import com.pengrad.telegrambot.TelegramBot;
 import structures.Info;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class App {
 
     public static TelegramBot bot;
 
-    static Info userInfo = new Info();
+    static Map<Long, Info> userInfo = new HashMap<>();
+
+    //static Info userInfo = new Info();
 
     private void run() {
         // connect bot

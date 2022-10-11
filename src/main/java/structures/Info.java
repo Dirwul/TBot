@@ -4,14 +4,23 @@ public class Info {
 
     public static final double EPS = 1e-9;
 
-    private CalculationType calcType = null;
+    private CalculationType calcType;
 
-    private SectionType sectionType = null;
+    private SectionType sectionType;
 
-    private double stepValue = 0.0;
+    private double stepValue;
 
-    private int stepQuantity = 0;
+    private int stepQuantity;
 
+    private State state;
+
+    public Info() {
+        this.calcType = null;
+        this.sectionType = null;
+        this.stepValue = 0.0;
+        this.stepQuantity = 0;
+        this.state = State.NONE;
+    }
 
     public boolean isOk() {
         return calcType != null &&
@@ -35,11 +44,19 @@ public class Info {
         this.stepQuantity = stepQuantity;
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
+
     public double getStepValue() {
         return stepValue;
     }
 
     public int getStepQuantity() {
         return stepQuantity;
+    }
+
+    public State getState() {
+        return state;
     }
 }
