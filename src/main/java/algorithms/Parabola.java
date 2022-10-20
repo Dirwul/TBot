@@ -1,4 +1,4 @@
-package Algorithms;
+package algorithms;
 
 import languageRecognition.EvalVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;

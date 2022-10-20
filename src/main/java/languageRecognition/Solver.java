@@ -77,7 +77,7 @@ public class Solver {
         if (userData.getSectionType() == SectionType.BY_FLOATING_STEP) {
             nSteps = 1;
             //double ans1 = new EvalVisitor(left).visit(tree) * (right - left); // only left and right
-            double ans1 = Algorithms.Trapezoid.solve(left, right, nSteps, tree);
+            double ans1 = algorithms.Trapezoid.solve(left, right, nSteps, tree);
             do {
                 if (nSteps == (1 << 25)) {
                     return "К сожалению приведение к данной точности требует излишних вычислений.\n" +
@@ -88,10 +88,10 @@ public class Solver {
                 ans = ans1;     //второе приближение
                 double leftIndent = (right - left) / (nSteps * 2);
                 double upd = switch(userData.getCalcType()) {
-                    case LEFT_RECTANGLE -> Algorithms.LeftRectangle.solve(left + leftIndent, right, nSteps, tree);
-                    case RIGHT_RECTANGLE -> Algorithms.RightRectangle.solve(left + leftIndent, right, nSteps, tree);
-                    case TRAPEZOID -> Algorithms.Trapezoid.solve(left + leftIndent, right, nSteps, tree);
-                    case PARABOLA -> Algorithms.Parabola.solve(left + leftIndent, right, nSteps, tree);
+                    case LEFT_RECTANGLE -> algorithms.LeftRectangle.solve(left + leftIndent, right, nSteps, tree);
+                    case RIGHT_RECTANGLE -> algorithms.RightRectangle.solve(left + leftIndent, right, nSteps, tree);
+                    case TRAPEZOID -> algorithms.Trapezoid.solve(left + leftIndent, right, nSteps, tree);
+                    case PARABOLA -> algorithms.Parabola.solve(left + leftIndent, right, nSteps, tree);
                 };
                 ans1 = (ans + upd) / 2;
                 nSteps <<= 1;
@@ -100,10 +100,10 @@ public class Solver {
             ans = ans / 2 + ans1 / 2;
         } else {
             ans = switch(userData.getCalcType()) {
-                case LEFT_RECTANGLE -> Algorithms.LeftRectangle.solve(left, right, nSteps, tree);
-                case RIGHT_RECTANGLE -> Algorithms.RightRectangle.solve(left, right, nSteps, tree);
-                case TRAPEZOID -> Algorithms.Trapezoid.solve(left, right, nSteps, tree);
-                case PARABOLA -> Algorithms.Parabola.solve(left, right, nSteps, tree);
+                case LEFT_RECTANGLE -> algorithms.LeftRectangle.solve(left, right, nSteps, tree);
+                case RIGHT_RECTANGLE -> algorithms.RightRectangle.solve(left, right, nSteps, tree);
+                case TRAPEZOID -> algorithms.Trapezoid.solve(left, right, nSteps, tree);
+                case PARABOLA -> algorithms.Parabola.solve(left, right, nSteps, tree);
             };
         }
 
