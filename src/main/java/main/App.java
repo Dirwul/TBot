@@ -12,8 +12,6 @@ public class App {
 
     static Map<Long, Info> userInfo = new HashMap<>();
 
-    //static Info userInfo = new Info();
-
     private void run() {
         // connect bot
         bot = new TelegramBot("5748684751:AAElE9xbxjKQHeOnNvekHyjRRauJorBH0sQ");

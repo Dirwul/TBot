@@ -12,6 +12,8 @@ public class Info {
 
     private int stepQuantity;
 
+    private double eps;
+
     private State state;
 
     public Info() {
@@ -25,7 +27,8 @@ public class Info {
     public boolean isOk() {
         return calcType != null &&
                 (sectionType == SectionType.BY_STEP_QUANTITY && stepQuantity > 0 ||
-                sectionType == SectionType.BY_STEP_VALUE && stepValue > EPS);
+                sectionType == SectionType.BY_STEP_VALUE && stepValue > EPS ||
+                sectionType == SectionType.BY_FLOATING_STEP);
     }
 
     public void setCalcType(CalculationType calcType) {
@@ -48,6 +51,14 @@ public class Info {
         this.state = state;
     }
 
+    public void setEps(double eps) {
+        this.eps = eps / 2;
+    }
+
+    public CalculationType getCalcType() {
+        return calcType;
+    }
+
     public double getStepValue() {
         return stepValue;
     }
@@ -58,5 +69,13 @@ public class Info {
 
     public State getState() {
         return state;
+    }
+
+    public SectionType getSectionType() {
+        return sectionType;
+    }
+
+    public double getEps() {
+        return eps;
     }
 }

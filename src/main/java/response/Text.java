@@ -7,10 +7,13 @@ public class Text {
             1. Метод и отрезок интегрирования выбирайте из предложенных вариантов.
             2. Функцию и отрезок интегрирования вводите по следующим правилам:
                 а) [a;b]{expression}
-                б) a строго меньше b
-                в) в выражении допустимы только операторы { +, -, *, /, ^ }
-                д) Можно использовать sqrt(), ln(), log(base, value), sin(), cos(), tg(), ctg()
-            3. Если есть баги, то я не виноват)0
+                b) a строго меньше b
+                c) Допустимые операторы: + - * / ^
+            3. Математическеи функции: sqrt(value), ln(value), log(base, value)
+            4. Тригонометрические функции: sin(), cos(), tan(), asin(), acos(), atan()
+            5. Значение тригонометрических функций принимается в радианах.
+                Чтобы воспользоваться градусной мерой, используйте выражение (value * pi / 180)
+            6. Доступные константы: pi, e
         """;
     public static String calcType =
             """
@@ -27,8 +30,7 @@ public class Text {
             """;
     public static String chooseSettings =
             """
-            !!!Этот раздел пока закрыт!!! todo
-            Choose calculation type or section type before solving
+            Сначала выберите метод интегрирования и тип разбиения.
             """;
     public static String undefinedCommand =
             """
@@ -59,4 +61,5 @@ public class Text {
     public static String correctRead = "Значение корректно";
 
     public static String inputData = "Введите значение:";
+    public static String incorrectFloatingStep = "Некорректная точность";
 }

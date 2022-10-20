@@ -7,6 +7,10 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     /** "memory" for our calculator; variable/value pairs go here */
     Map<String, Double> memory = new HashMap<String, Double>();
 
+    public EvalVisitor(double value) {
+        memory.put("x", value);
+    }
+
     @Override
     public Double visitAssign(CalculatorParser.AssignContext ctx) {
         String id = ctx.VARIABLE().getText();  // id is left-hand side of '='
@@ -84,8 +88,12 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     @Override
     public Double visitVariable(CalculatorParser.VariableContext ctx) {
         String id = ctx.VARIABLE().getText();
-        if ( memory.containsKey(id) ) return memory.get(id);
-        return 0.0;
+        if (memory.containsKey(id) && id.equals("x")) {
+            return memory.get(id);
+        } else {
+            memory.put(id, 0.0);
+            return 0.0;
+        }
     }
 
     /** Braces */

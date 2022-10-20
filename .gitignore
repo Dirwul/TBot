@@ -1,5 +1,4 @@
 .idea
-pom.xml
 !src/main/java
 
 target/

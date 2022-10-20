@@ -6,5 +6,6 @@ public enum State {
     SET_SECTION_TYPE,
     STEP_VALUE,
     STEP_QUANTITY,
+    FLOATING_STEP,
     SOLVE
 }

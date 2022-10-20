@@ -55,7 +55,7 @@ public class Validator {
 
     public static boolean isCorrectToEval(String expr) {
         try {
-            EvalSolver.run(1, expr); // todo to validate only [a]
+            Solver.getParseTree(expr); // todo to validate only [a]
             return expr.startsWith("{") && expr.endsWith("}");
         } catch(Exception e) {
             System.out.println("not correct to eval"); // debug

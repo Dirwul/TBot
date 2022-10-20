@@ -89,7 +89,7 @@ public class BuildScript {
             }
         }
         if (isOk) {
-            Snippet.correctRead(chatId);
+            Snippet.correctReadCalcType(chatId);
         }
     }
 
@@ -110,6 +110,11 @@ public class BuildScript {
                 user.setState(State.STEP_QUANTITY);
                 isOk = true;
             }
+            case "/floatingstep" -> {
+                user.setSectionType(SectionType.BY_FLOATING_STEP);
+                user.setState(State.FLOATING_STEP);
+                isOk = true;
+            }
             default -> Snippet.Error.incorrectSectionType(chatId);
         }
         if (isOk) {
@@ -125,8 +130,11 @@ public class BuildScript {
             user.setState(State.NONE);
         } else if (Validator.isCorrectDouble(txt)) {
             user.setStepValue(Double.parseDouble(txt));
+            if (user.getCalcType() == null) {
+                user.setCalcType(CalculationType.LEFT_RECTANGLE);
+            }
             user.setState(State.NONE);
-            Snippet.correctRead(chatId);
+            Snippet.correctReadSectionType(chatId);
         } else {
             Snippet.Error.incorrectStepValue(chatId);
         }
@@ -140,10 +148,31 @@ public class BuildScript {
             user.setState(State.NONE);
         } else if (Validator.isCorrectInteger(txt)) {
             user.setStepQuantity(Integer.parseInt(txt));
+            if (user.getCalcType() == null) {
+                user.setCalcType(CalculationType.LEFT_RECTANGLE);
+            }
             user.setState(State.NONE);
-            Snippet.correctRead(chatId);
+            Snippet.correctReadSectionType(chatId);
         } else {
             Snippet.Error.incorrectStepQuantity(chatId);
+        }
+    }
+
+    public void floatingStep() {
+        if (txt.equalsIgnoreCase("/help") ||
+                txt.equalsIgnoreCase("/back")
+        ) {
+            Snippet.help(chatId);
+            user.setState(State.NONE);
+        } else if (Validator.isCorrectDouble(txt)) {
+            user.setEps(Double.parseDouble(txt));
+            if (user.getCalcType() == null) {
+                user.setCalcType(CalculationType.LEFT_RECTANGLE);
+            }
+            user.setState(State.NONE);
+            Snippet.correctReadSectionType(chatId);
+        } else {
+            Snippet.Error.incorrectFloatingStep(chatId);
         }
     }
 

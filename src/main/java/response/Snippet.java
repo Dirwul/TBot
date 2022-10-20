@@ -31,9 +31,15 @@ public class Snippet {
         bot.execute(defaultMessage(chatId, Text.back));
     }
 
-    public static void correctRead(Long chatId) {
+    public static void correctReadCalcType(Long chatId) {
         bot.execute(defaultMessage(chatId, Text.correctRead)
-                .replyMarkup(Keyboards.help())
+                .replyMarkup(Keyboards.afterCalcType())
+        );
+    }
+
+    public static void correctReadSectionType(Long chatId) {
+        bot.execute(defaultMessage(chatId, Text.correctRead)
+                .replyMarkup(Keyboards.afterSectionType())
         );
     }
 
@@ -85,6 +91,10 @@ public class Snippet {
 
         public static void incorrectExpression(Long chatId) {
             bot.execute(defaultMessage(chatId, Text.incorrectExpression));
+        }
+
+        public static void incorrectFloatingStep(Long chatId) {
+            bot.execute(defaultMessage(chatId, Text.incorrectFloatingStep));
         }
     }
 }

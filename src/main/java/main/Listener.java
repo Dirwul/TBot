@@ -13,8 +13,6 @@ public class Listener {
 
     TelegramBot bot;
 
-    //static State state = State.NONE;
-
     Listener(TelegramBot bot) {
         this.bot = bot;
     }
@@ -41,6 +39,7 @@ public class Listener {
             case SET_SECTION_TYPE -> new BuildScript(update).settingsSectionType();
             case STEP_QUANTITY -> new BuildScript(update).stepQuantity();
             case STEP_VALUE ->  new BuildScript(update).stepValue();
+            case FLOATING_STEP -> new BuildScript(update).floatingStep();
             case SOLVE -> new BuildScript(update).solve();
             default -> System.out.println("Smth gets wrong in state choosing");
         }

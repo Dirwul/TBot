@@ -52,10 +52,36 @@ public class Keyboards {
     public static Keyboard sectionType() {
         return new InlineKeyboardMarkup(
                 new InlineKeyboardButton[] {
-                        new InlineKeyboardButton("Постоянный шаг")
+                        new InlineKeyboardButton("Количество шагов")
                                 .switchInlineQueryCurrentChat("/StepQuantity"),
-                        new InlineKeyboardButton("Переменный шаг")
+                        new InlineKeyboardButton("Значение шага")
                                 .switchInlineQueryCurrentChat("/StepValue")
+                },
+                new InlineKeyboardButton[] {
+                        new InlineKeyboardButton("Точность вычисления")
+                                .switchInlineQueryCurrentChat("/FloatingStep")
+                }
+        );
+    }
+
+    public static Keyboard afterCalcType() {
+        return new InlineKeyboardMarkup(
+                new InlineKeyboardButton[] {
+                        new InlineKeyboardButton("Тип разбиения")
+                                .switchInlineQueryCurrentChat("/SectionType"),
+                        new InlineKeyboardButton("Решить")
+                                .switchInlineQueryCurrentChat("/solve")
+                }
+        );
+    }
+
+    public static Keyboard afterSectionType() {
+        return new InlineKeyboardMarkup(
+                new InlineKeyboardButton[] {
+                        new InlineKeyboardButton("Тип интегрирования")
+                                .switchInlineQueryCurrentChat("/CalculationType"),
+                        new InlineKeyboardButton("Решить")
+                                .switchInlineQueryCurrentChat("/solve")
                 }
         );
     }
