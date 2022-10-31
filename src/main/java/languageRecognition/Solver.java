@@ -93,11 +93,9 @@ public class Solver {
                     case TRAPEZOID -> algorithms.Trapezoid.solve(left + leftIndent, right, nSteps, tree);
                     case PARABOLA -> algorithms.Parabola.solve(left + leftIndent, right, nSteps, tree);
                 };
-                ans1 = (ans + upd) / 2;
+                ans1 = upd;
                 nSteps <<= 1;
-            }
-            while (abs(ans1 - ans) > userData.getEps());  //сравнение приближений с заданной точностью
-            ans = ans / 2 + ans1 / 2;
+            } while (abs(ans1 - ans) > userData.getEps());  //сравнение приближений с заданной точностью
         } else {
             ans = switch(userData.getCalcType()) {
                 case LEFT_RECTANGLE -> algorithms.LeftRectangle.solve(left, right, nSteps, tree);
