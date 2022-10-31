@@ -42,6 +42,12 @@ public class Validator {
 
     public static boolean isCorrectLimits(String expr) {
         try {
+            int midId = expr.indexOf("]");
+            if (midId + 1 < expr.length() && expr.charAt(midId + 1) == '[') {
+                return isCorrectLimits(expr.substring(0, midId + 1))
+                        && isCorrectLimits(expr.substring(midId + 1));
+            }
+
             int left = 0;
             int mid = expr.indexOf(";");
             int right = expr.length() - 1;

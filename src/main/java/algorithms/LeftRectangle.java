@@ -14,4 +14,21 @@ public class LeftRectangle {
         }
         return ans;
     }
+
+
+    public static double solve(double leftX, double rightX, double leftY, double rightY, int nSteps, ParseTree tree) {
+        double stepValueX = (rightX - leftX) / nSteps;
+        double stepValueY = (rightY - leftY) / nSteps;
+        double ans = 0;
+        for (int iy = 0; iy < nSteps; iy++) {
+            double yAns = 0;
+            double y = leftY + iy * stepValueY;
+            for (int i = 0; i < nSteps; i++) {
+                double x = leftX + i * stepValueX;
+                yAns += stepValueX * new EvalVisitor(x, y).visit(tree);
+            }
+            ans += stepValueY * yAns;
+        }
+        return ans;
+    }
 }

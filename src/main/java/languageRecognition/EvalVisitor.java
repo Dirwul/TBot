@@ -11,6 +11,11 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
         memory.put("x", value);
     }
 
+    public EvalVisitor(double xValue, double yValue) {
+        memory.put("x", xValue);
+        memory.put("y", yValue);
+    }
+
     @Override
     public Double visitAssign(CalculatorParser.AssignContext ctx) {
         String id = ctx.VARIABLE().getText();  // id is left-hand side of '='
